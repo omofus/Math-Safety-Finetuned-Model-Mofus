@@ -89,6 +89,7 @@ tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
 
 # Attach your fine-tuned weights from the cloud!
 model = PeftModel.from_pretrained(base_model, MY_PEFT_REPO)
+gsm8k_train = load_jsonlines('gsm8k_train_self-instruct.jsonl')
 
 
 

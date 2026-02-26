@@ -1,6 +1,6 @@
 import torch
 import gc
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
 from peft import PeftModel
 from huggingface_hub import login
 import pandas as pd 
@@ -89,6 +89,18 @@ tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
 
 # Attach your fine-tuned weights from the cloud!
 model = PeftModel.from_pretrained(base_model, MY_PEFT_REPO)
+
+generator = pipeline(
+    'text-generation',
+    model=model,
+    tokenizer=tokenizer,
+    pad_token_id=tokenizer.eos_token_id,
+    max_new_tokens=512,
+    do_sample=False,
+)
+
+gsm8k_train = load_jsonlines('gsm8k_train_self-instruct.jsonl')
+gsm8k_train = load_jsonlines('gsm8k_train_self-instruct.jsonl')
 
 
 
